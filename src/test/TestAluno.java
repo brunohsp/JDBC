@@ -3,7 +3,7 @@ package test;
 import dao.AlunoDao;
 import models.Aluno;
 
-public class Test {
+public class TestAluno {
   public static void main(String[] args) {
     AlunoDao alunoDao = new AlunoDao();
 
