@@ -38,4 +38,11 @@ public class Estatistica {
     this.var = var;
   }
 
+  @Override
+  public String toString() {
+    return "Estatistica [media=" + media + ", max=" + max + ", min=" + min + ", var=" + var + "]";
+  }
+
+
+
 }
