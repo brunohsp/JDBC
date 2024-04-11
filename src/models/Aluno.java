@@ -7,11 +7,11 @@ public class Aluno {
   private String nome;
   private ArrayList<Nota> notas;
 
-  public Integer getId() {
+  public Integer getIdAluno() {
     return this.idAluno;
   }
 
-  public void setId(Integer idAluno) {
+  public void setIdAluno(Integer idAluno) {
     this.idAluno = idAluno;
   }
 
