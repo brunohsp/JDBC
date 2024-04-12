@@ -14,7 +14,7 @@ public class ConnectionFactory {
     Class.forName("org.postgresql.Driver");
 
     Connection connection = DriverManager.getConnection(DATABASE_URL, USERNAME, PASSWORD);
-    System.out.println("Connection openned");
+    //System.out.println("Connection openned");
 
     return connection;
   }

@@ -98,7 +98,8 @@ public class NotaDao {
       try (ResultSet results = statement.executeQuery();) {
 
         Estatistica estatistica = new Estatistica();
-        results.next();
+
+        if(!results.next()) return null;
 
         estatistica.setMedia(results.getFloat("media"));
         estatistica.setMax(results.getFloat("maximo"));
