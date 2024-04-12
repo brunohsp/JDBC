@@ -18,35 +18,51 @@ public class InterfaceNota {
   }
 
   private static void displayAlunos(ArrayList<Aluno> alunos) {
-    int contador = 0;
     for (Aluno aluno : alunos) {
-      contador++;
-      System.out.println(contador + " | " + aluno.getNome());
+      System.out.println(aluno.getIdAluno() + " | " + aluno.getNome());
     }
   }
 
   private static void displayNotas(ArrayList<Nota> notas) {
-    int contador = 0;
     for (Nota nota : notas) {
-      contador++;
-      System.out.println(contador + " | Nota: " + nota.getNota());
+      System.out.println(nota.getIdNota() + " | Nota: " + nota.getNota());
     }
   }
 
-  private static int getValidSelection(int max) {
-    int selecao = -1;
-    while (selecao < 1 || selecao > max) {
-      try {
-        selecao = scanner.nextInt();
-        if (selecao < 1 || selecao > max) {
-          System.out.println("Entrada inválida. Tente novamente:");
-        }
-      } catch (InputMismatchException e) {
-        System.out.println("Entrada inválida. Tente novamente:");
+  private static Aluno findAluno(ArrayList<Aluno> alunos) {
+    while (true) {
+      while (!scanner.hasNextInt()) {
+        System.out.println("Entrada inválida! Por favor, digite um número inteiro.");
         scanner.next();
       }
+
+      int selecao = scanner.nextInt();
+
+      for (Aluno aluno : alunos) {
+        if (aluno.getIdAluno().equals(selecao)) {
+          return aluno;
+        }
+      }
+      System.out.println("Entrada inválida! Por favor, digite um id válido.");
     }
-    return selecao;
+  }
+
+  private static Nota findNota(ArrayList<Nota> notas) {
+    while (true) {
+      while (!scanner.hasNextInt()) {
+        System.out.println("Entrada inválida! Por favor, digite um número inteiro.");
+        scanner.next();
+      }
+
+      int selecao = scanner.nextInt();
+
+      for (Nota nota : notas) {
+        if (nota.getIdNota().equals(selecao)) {
+          return nota;
+        }
+      }
+      System.out.println("Entrada inválida! Por favor, digite um id válido.");
+    }
   }
 
   private static int getValidSelection(int max, int min) {
@@ -54,7 +70,7 @@ public class InterfaceNota {
     while (selecao < min || selecao > max) {
       try {
         selecao = scanner.nextInt();
-        if (selecao < min|| selecao > max) {
+        if (selecao < min || selecao > max) {
           System.out.println("Entrada inválida. Tente novamente:");
         }
       } catch (InputMismatchException e) {
@@ -67,8 +83,6 @@ public class InterfaceNota {
 
   public static void listForAluno() {
     clearScreen();
-
-    System.out.println("Digite o número do aluno para ver suas notas:");
     ArrayList<Aluno> alunos = AlunoDao.get();
 
     if (alunos.isEmpty()) {
@@ -79,10 +93,10 @@ public class InterfaceNota {
       return;
     }
 
+    System.out.println("Digite o número do aluno para ver suas notas:");
     displayAlunos(alunos);
 
-    int selecao = getValidSelection(alunos.size());
-    Aluno aluno = alunos.get(selecao - 1);
+    Aluno aluno = InterfaceNota.findAluno(alunos);
 
     System.out.println("Notas do(a) " + aluno.getNome() + ":");
     ArrayList<Nota> notas = NotaDao.get(aluno);
@@ -113,9 +127,7 @@ public class InterfaceNota {
     }
 
     displayAlunos(alunos);
-
-    int selecao = getValidSelection(alunos.size());
-    Aluno aluno = alunos.get(selecao - 1);
+    Aluno aluno = InterfaceNota.findAluno(alunos);
     System.out.println("Digite a nota:");
 
     int nota = getValidSelection(10, 0);
@@ -132,8 +144,6 @@ public class InterfaceNota {
 
   public static void update() {
     clearScreen();
-
-    System.out.println("Digite o número do aluno para alterar uma nota:");
     ArrayList<Aluno> alunos = AlunoDao.get();
 
     if (alunos.isEmpty()) {
@@ -145,10 +155,10 @@ public class InterfaceNota {
       return;
     }
 
+    System.out.println("Digite o número do aluno para alterar uma nota:");
     displayAlunos(alunos);
 
-    int selecao = getValidSelection(alunos.size());
-    Aluno aluno = alunos.get(selecao - 1);
+    Aluno aluno = InterfaceNota.findAluno(alunos);
     ArrayList<Nota> notas = NotaDao.get(aluno);
 
     if (notas.isEmpty()) {
@@ -161,11 +171,9 @@ public class InterfaceNota {
     }
 
     System.out.println("Digite o número da nota que deseja alterar:");
-
     displayNotas(notas);
 
-    selecao = getValidSelection(notas.size());
-    Nota notaSelecionada = notas.get(selecao - 1);
+    Nota notaSelecionada = InterfaceNota.findNota(notas);
 
     System.out.println("Digite a nova nota:");
     int novaNota = getValidSelection(10, 0);
@@ -181,8 +189,6 @@ public class InterfaceNota {
 
   public static void delete() {
     clearScreen();
-
-    System.out.println("Digite o número do aluno para remover uma nota:");
     ArrayList<Aluno> alunos = AlunoDao.get();
 
     if (alunos.isEmpty()) {
@@ -194,10 +200,10 @@ public class InterfaceNota {
       return;
     }
 
+    System.out.println("Digite o número do aluno para remover uma nota:");
     displayAlunos(alunos);
 
-    int selecao = getValidSelection(alunos.size());
-    Aluno aluno = alunos.get(selecao - 1);
+    Aluno aluno = InterfaceNota.findAluno(alunos);
     ArrayList<Nota> notas = NotaDao.get(aluno);
 
     if (notas.isEmpty()) {
@@ -213,8 +219,7 @@ public class InterfaceNota {
 
     displayNotas(notas);
 
-    selecao = getValidSelection(notas.size());
-    Nota notaSelecionada = notas.get(selecao - 1);
+    Nota notaSelecionada = InterfaceNota.findNota(notas);
 
     NotaDao.delete(notaSelecionada);
     System.out.println("Nota removida com sucesso!");
@@ -226,8 +231,6 @@ public class InterfaceNota {
 
   public static void deleteAllFromAluno() {
     clearScreen();
-
-    System.out.println("Digite o número do aluno para remover TODAS as notas:");
     ArrayList<Aluno> alunos = AlunoDao.get();
 
     if (alunos.isEmpty()) {
@@ -239,10 +242,10 @@ public class InterfaceNota {
       return;
     }
 
+    System.out.println("Digite o número do aluno para remover TODAS as notas:");
     displayAlunos(alunos);
 
-    int selecao = getValidSelection(alunos.size());
-    Aluno aluno = alunos.get(selecao - 1);
+    Aluno aluno = InterfaceNota.findAluno(alunos);
 
     NotaDao.deleteAllFromAluno(aluno);
     System.out.println("Notas removidas com sucesso!");

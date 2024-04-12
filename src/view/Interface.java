@@ -32,44 +32,50 @@ public class Interface {
     while (true) {
       System.out.print("\033[H\033[2J");
       System.out.print(bemVindo);
+
+      while (!entrada.hasNextInt()) {
+        System.out.println("Entrada inválida! Por favor, digite um número inteiro.");
+        entrada.next();
+      }
+
       selecao = entrada.nextInt();
 
-        switch (selecao) {
-          case 0 :
+      switch (selecao) {
+        case 0:
           entrada.close();
           System.exit(0);
           break;
-          case 1:
-            InterfaceAluno.list();
-            break;
-            case 2:
-            InterfaceAluno.create();
-            break;
-            case 3:
-            InterfaceAluno.update();
-            break;
-            case 4:
-            InterfaceAluno.delete();
-            break;
-            case 5:
-            InterfaceNota.listForAluno();
-            break;
-            case 6:
-            InterfaceNota.create();
-            break;
-            case 7:
-            InterfaceNota.update();
-            break;
-            case 8:
-            InterfaceNota.delete();
-            break;
-            case 9:
-            InterfaceNota.deleteAllFromAluno();
-            break;
-          default:
-            break;
-        }
-        entrada.reset();
+        case 1:
+          InterfaceAluno.list();
+          break;
+        case 2:
+          InterfaceAluno.create();
+          break;
+        case 3:
+          InterfaceAluno.update();
+          break;
+        case 4:
+          InterfaceAluno.delete();
+          break;
+        case 5:
+          InterfaceNota.listForAluno();
+          break;
+        case 6:
+          InterfaceNota.create();
+          break;
+        case 7:
+          InterfaceNota.update();
+          break;
+        case 8:
+          InterfaceNota.delete();
+          break;
+        case 9:
+          InterfaceNota.deleteAllFromAluno();
+          break;
+        default:
+          break;
+      }
+      entrada.reset();
     }
     // entrada.close();
   }
