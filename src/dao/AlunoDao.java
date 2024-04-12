@@ -10,126 +10,100 @@ import factory.ConnectionFactory;
 import models.Aluno;
 
 public class AlunoDao {
-  public void create(Aluno aluno) {
+  public static void create(Aluno aluno) {
     String sql = "INSERT INTO aluno(nome) VALUES (?)";
 
-    Connection connection = null;
-    PreparedStatement statement = null;
-
-    try {
-      connection = ConnectionFactory.openConnection();
-      statement = (PreparedStatement) connection.prepareStatement(sql);
+    try (
+        Connection connection = ConnectionFactory.openConnection();
+        PreparedStatement statement = (PreparedStatement) connection.prepareStatement(sql);) {
 
       statement.setString(1, aluno.getNome());
 
       statement.executeUpdate();
     } catch (SQLException | ClassNotFoundException e) {
       e.printStackTrace();
-    } finally {
-      try {
-        if (connection != null)
-          connection.close();
-        if (statement != null)
-          statement.close();
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
     }
   }
 
-  public ArrayList<Aluno> read() {
+  public static ArrayList<Aluno> get() {
     String sql = "SELECT * FROM aluno";
-    ArrayList<Aluno> alunos = new ArrayList<Aluno>();
 
-    Connection connection = null;
-    PreparedStatement statement = null;
-    ResultSet results = null;
+    try (
+        Connection connection = ConnectionFactory.openConnection();
+        PreparedStatement statement = (PreparedStatement) connection.prepareStatement(sql);
+        ResultSet results = statement.executeQuery();) {
 
-    try {
-      connection = ConnectionFactory.openConnection();
-      statement = (PreparedStatement) connection.prepareStatement(sql);
-
-      results = statement.executeQuery();
+      ArrayList<Aluno> alunos = new ArrayList<Aluno>();
 
       while (results.next() == true) {
         Aluno aluno = new Aluno();
 
-        aluno.setId(results.getInt("id_aluno"));
+        aluno.setIdAluno(results.getInt("id_aluno"));
         aluno.setNome(results.getString("nome"));
 
         alunos.add(aluno);
       }
+
+      return alunos;
     } catch (SQLException | ClassNotFoundException e) {
       e.printStackTrace();
-    } finally {
-      try {
-        if (connection != null)
-          connection.close();
-        if (statement != null)
-          statement.close();
-        if (results != null)
-          results.close();
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
     }
 
-    return alunos;
+    return null;
 
   }
 
-  public void update(Aluno aluno) {
+  public static Aluno get(Integer idAluno) {
+    String sql = "SELECT * FROM aluno WHERE id_aluno = ?";
+
+    try (
+        Connection connection = ConnectionFactory.openConnection();
+        PreparedStatement statement = (PreparedStatement) connection.prepareStatement(sql);) {
+
+      statement.setInt(1, idAluno);
+      try (ResultSet results = statement.executeQuery();) {
+        Aluno aluno = new Aluno();
+
+        results.next();
+        aluno.setIdAluno(results.getInt("id_aluno"));
+        aluno.setNome(results.getString("nome"));
+
+        return aluno;
+      }
+    } catch (SQLException | ClassNotFoundException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  public static void update(Aluno aluno) {
     String sql = "UPDATE aluno SET nome = ? WHERE id_aluno = ?";
 
-    Connection connection = null;
-    PreparedStatement statement = null;
-
-    try {
-      connection = ConnectionFactory.openConnection();
-      statement = (PreparedStatement) connection.prepareStatement(sql);
+    try (
+        Connection connection = ConnectionFactory.openConnection();
+        PreparedStatement statement = (PreparedStatement) connection.prepareStatement(sql);) {
 
       statement.setString(1, aluno.getNome());
-      statement.setInt(2, aluno.getId());
+      statement.setInt(2, aluno.getIdAluno());
 
       statement.executeUpdate();
     } catch (SQLException | ClassNotFoundException e) {
       e.printStackTrace();
-    } finally {
-      try {
-        if (connection != null)
-          connection.close();
-        if (statement != null)
-          statement.close();
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
     }
   }
 
-  public void delete(Aluno aluno) {
+  public static void delete(Aluno aluno) {
     String sql = "DELETE FROM aluno WHERE id_aluno = ?";
 
-    Connection connection = null;
-    PreparedStatement statement = null;
-
-    try {
-      connection = ConnectionFactory.openConnection();
-      statement = (PreparedStatement) connection.prepareStatement(sql);
-
-      statement.setInt(1, aluno.getId());
+    try (
+        Connection connection = ConnectionFactory.openConnection();
+        PreparedStatement statement = (PreparedStatement) connection.prepareStatement(sql);) {
+      statement.setInt(1, aluno.getIdAluno());
 
       statement.executeUpdate();
+      NotaDao.deleteAllFromAluno(aluno);
     } catch (SQLException | ClassNotFoundException e) {
       e.printStackTrace();
-    } finally {
-      try {
-        if (connection != null)
-          connection.close();
-        if (statement != null)
-          statement.close();
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
     }
   }
 

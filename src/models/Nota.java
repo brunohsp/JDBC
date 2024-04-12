@@ -1,23 +1,31 @@
 package models;
 
 public class Nota {
-  private int id;
-  private int nota;
+  private Integer idNota;
+  private Integer nota;
+  private Aluno aluno;
 
-  public int getId() {
-    return id;
+  public Integer getIdNota() {
+    return this.idNota;
   }
 
-  public void setId(int id) {
-    this.id = id;
+  public void setIdNota(Integer idNota) {
+    this.idNota = idNota;
   }
 
-  public int getNota() {
-    return nota;
+  public Integer getNota() {
+    return this.nota;
   }
 
-  public void setNota(int nota) {
+  public void setNota(Integer nota) {
     this.nota = nota;
   }
 
+  public Aluno getAluno() {
+    return this.aluno;
+  }
+
+  public void setAluno(Aluno aluno) {
+    this.aluno = aluno;
+  }
 }

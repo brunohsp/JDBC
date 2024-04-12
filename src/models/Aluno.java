@@ -1,23 +1,34 @@
 package models;
 
-public class Aluno {
-  private int id;
-  private String nome;
+import java.util.ArrayList;
 
-  public int getId() {
-    return id;
+public class Aluno {
+  private Integer idAluno;
+  private String nome;
+  private ArrayList<Nota> notas;
+
+  public Integer getIdAluno() {
+    return this.idAluno;
   }
 
-  public void setId(int id) {
-    this.id = id;
+  public void setIdAluno(Integer idAluno) {
+    this.idAluno = idAluno;
   }
 
   public String getNome() {
-    return nome;
+    return this.nome;
   }
 
   public void setNome(String nome) {
     this.nome = nome;
+  }
+
+  public ArrayList<Nota> getNotas() {
+    return this.notas;
+  }
+
+  public void setNotas(ArrayList<Nota> notas) {
+    this.notas = notas;
   }
 
 }
